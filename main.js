@@ -109,6 +109,9 @@ const listResults = list()
   .then(ok=>{
     console.log(ok)
   })
+  .finally(function(){
+    client.quit()
+  })
 
 
 
