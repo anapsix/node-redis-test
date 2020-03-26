@@ -97,22 +97,22 @@ function list (opts={prefix: '', limit: 1000, cursor: '0'}) {
     })
 }
 
-put('/hello1', 'test', {expirationTtl: 600})
-put('/hello2', 'test', {expirationTtl: 600})
-put('/hello3', 'test', {expirationTtl: 600})
-put('/hello4', 'test', {expirationTtl: 600})
-put('/hello5', 'test', {expirationTtl: 600})
+function createSomeKeys() {
+  const p1 = put('/hello1', 'test', {expirationTtl: 10})
+  const p2 = put('/hello2', 'test', {expirationTtl: 10})
+  const p3 = put('/hello3', 'test', {expirationTtl: 10})
+  const p4 = put('/hello4', 'test', {expirationTtl: 10})
+  const p5 = put('/hello5', 'test', {expirationTtl: 10})
+  return Promise.resolve([p1, p2, p3, p4, p5])
+}
 
-// console.log(`${ttlAsync('/hello1')}`)
-
-const listResults = list()
-  .then(ok=>{
-    console.log(ok)
+createSomeKeys()
+  .then(function() {
+    const listResults = list()
+    .then(ok=>{
+      console.log(ok)
+    })
+    .finally(function(){
+      client.quit()
+    })
   })
-  .finally(function(){
-    client.quit()
-  })
-
-
-
-
